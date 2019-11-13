@@ -13,3 +13,5 @@ E.G. d6 = Dice(6)
 - roll 3 times: d6.roll(3)
 - roll 3 times and add a bonus: d6.roll(3,+1)
 
+### TODO LIST
+1. handle exception in __add__ method when applied to custom dice with strings 
