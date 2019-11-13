@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 class Dice:
     """
     An object dice with a roll method that return a random number.
-    You can create any type of dice, even with custom faces.
+    You can create any type of dice; you can also create a dice with custom faces,
+     using customDice subclass and the set_faces method.
     You can roll your dice just once or multiple times; you can also add a bonus.
 
     Args:
@@ -15,10 +16,10 @@ class Dice:
         show  - if True show the single results of a multiple roll (default False)
 
     Return:
-        A random number from the set defined by the dice's type
+        An object of class Dice, which returns a random number from the set {1:num}
 
     """
-
+    # prevents creating new attributes
     __slots__ = ['num', 'faces']
 
     _shapes = {4:'Tetrahedron',
@@ -36,6 +37,7 @@ class Dice:
         self.faces = [i for i in range(1,self.num+1)]
 
     def roll(self, times =1,  bonus = 0, show=False):
+        """Returns a random element from the list faces"""
         rolls = [choice( self.faces) for t in range(times)]
         if show:
             print(rolls)
@@ -45,7 +47,8 @@ class Dice:
             out = rolls
         return out
 
-    def showstats(self):
+    def plotstats(self):
+        """Plot an histogram with a custome number of rolls"""
         rolls = [self.roll() for i in range(self._num_roll_test) ]
         plt.hist(rolls)
         plt.show
@@ -57,34 +60,53 @@ class Dice:
         try:
             show = 'Dice #{}: {}\n'.format(self.num, self._shapes[self.num])
         except KeyError:
-            show = 'Dice #{}: unknown\n'.format(self.num)
+            show = 'Dice #{}: unknown shape\n'.format(self.num)
         show += ' '.join([str(f) for f in self.faces])
         return show
 
     def __add__(self, other):
-        return self.roll() + other.roll()
+        try:
+            return self.roll() + other.roll()
+        except TypeError:
+            print("At least one of your dices has string as outcome: you can't add string and numbers")
 
     @staticmethod
     def full_dice_set():
+        """Generate a full set of dices at once"""
         return (Dice(i) for i in (1,4,6,8,10,12,20,100))
 
     @staticmethod
     def copynpaste():
+        """Print the code needed for generating a full set of dices"""
         print('d1,d4, d6, d8, d10, d12, d20, d100 = rollDice.full_dice_set()')
 
     @classmethod
     def set_stats_rolls(cls, num):
+        """This class method set the numbers of rolls used to produce the histogram in plotstats method"""
         cls._num_roll_test = num
 
     @property
     def avg(self):
+        """Returns the dice's average possible outcome"""
         return sum(range(1,self.num+1))/self.num
 
 class customDice(Dice):
+    """
+    Create a custom dice. The number of faces (num) and the length of the faces' list must match.
+    Args:
+        num   - number of dice's faces (required)
+        faces - an object of tupe list, containing the dice's faces (required)
+    Return:
+        An object of class customDice, which can produce a random value from the set specified by the argument faces
+    """
     def __init__(self, num, faces):
         super().__init__(num)
         self.faces = faces
         assert len(self.faces) == self.num, "\nThe number of faces and the entered list have a DIFFERENT LENGTH"
 
     def set_faces(self, new_faces):
+        """Assigne a new set of faces to a custom dice.
+           Args:   a list
+           Return: changes the faces of a dice
+        """
         self.faces = new_faces[:]
