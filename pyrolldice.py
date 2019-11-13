@@ -88,18 +88,3 @@ class customDice(Dice):
 
     def set_faces(self, new_faces):
         self.faces = new_faces[:]
-
-
-
-
-def Modifier():
-    vl = []
-    for i in range(-5,11):
-        if i != -5 and i != 10:
-            vl.append(i)
-            vl.append(i)
-        else:
-            vl.append(i)
-    kl = [i for i in range(1,31)]
-    modifier = dict(zip(kl, vl))
-    return modifier
