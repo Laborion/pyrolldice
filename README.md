@@ -15,3 +15,4 @@ E.G. d6 = Dice(6)
 
 ### TODO LIST
 1. handle exception in __add__ method when applied to custom dice with strings 
+2. documentation
