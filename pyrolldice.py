@@ -105,8 +105,8 @@ class customDice(Dice):
         assert len(self.faces) == self.num, "\nThe number of faces and the entered list have a DIFFERENT LENGTH"
 
     def set_faces(self, new_faces):
-        """Assigne a new set of faces to a custom dice.
+        """Change the set of faces of a custom dice.
            Args:   a list
-           Return: changes the faces of a dice
+           Return: a new list of faces
         """
         self.faces = new_faces[:]
